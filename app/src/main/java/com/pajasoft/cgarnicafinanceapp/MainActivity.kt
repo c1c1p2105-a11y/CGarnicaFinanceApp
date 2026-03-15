@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pajasoft.cgarnicafinanceapp.models.Cards
+import com.pajasoft.cgarnicafinanceapp.models.Transaction
 import com.pajasoft.cgarnicafinanceapp.models.Usuario
 import com.pajasoft.cgarnicafinanceapp.ui.theme.CGarnicaFinanceAppTheme
 
@@ -55,6 +56,15 @@ fun HomeScreen(innerPadding:PaddingValues) {
         Cards("Actividad", 0.0, Color.Green),
         Cards("Ventas",280.99,Color.Cyan),
         Cards("Ganancias",280.99,Color.Blue)
+    )
+
+    val transactions = listOf(
+        Transaction("Supermarket","Groceries",45.99,"10:30 AM"),
+        Transaction("Gas Station","Fuel",-30.50,"12:15 PM"),
+        Transaction("Coffee Shop","Food and Drinks",5.75,"8:00 AM"),
+        Transaction("Electronics Store","Electronics",-120.00,"3:45 PM"),
+        Transaction("Bookstore","Books",22.50,"11:00 AM"),
+        Transaction("Restaurant","Dining",68.30,"7:30 PM")
     )
 
 
@@ -205,6 +215,94 @@ fun HomeScreen(innerPadding:PaddingValues) {
                 }
             }
         }
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Text(
+                "Transactions",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                "See All",
+                color = Color.Gray
+            )
+        }
+
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(bottom = 16.dp)
+        ) {
+
+            items(transactions) { transaccion ->
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+
+                        Box(
+                            modifier = Modifier
+                                .size(45.dp)
+                                .clip(CircleShape)
+                                .background(Color.Black),
+                            contentAlignment = Alignment.Center
+                        ) {
+
+                            Icon(
+                                imageVector = Icons.Default.ShoppingCart,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier.padding(start = 12.dp)
+                        ) {
+
+                            Text(
+                                transaccion.nombre,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp
+                            )
+
+                            Text(
+                                transaccion.categoria,
+                                color = Color.Gray,
+                                fontSize = 13.sp
+                            )
+                        }
+                    }
+
+                    Column(horizontalAlignment = Alignment.End) {
+
+                        Text(
+                            "$${transaccion.monto}",
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            transaccion.time,
+                            color = Color.Gray,
+                            fontSize = 12.sp
+                        )
+                    }
+                }
+            }
+        }
+
     }
 }
 

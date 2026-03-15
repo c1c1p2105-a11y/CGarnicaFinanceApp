@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pajasoft.cgarnicafinanceapp.models.Cards
 import com.pajasoft.cgarnicafinanceapp.models.Usuario
 import com.pajasoft.cgarnicafinanceapp.ui.theme.CGarnicaFinanceAppTheme
 
@@ -49,6 +50,12 @@ class MainActivity : ComponentActivity() {
 fun HomeScreen(innerPadding:PaddingValues) {
 
     val user = Usuario("Cristiano", 777.777)
+
+    val cards = listOf(
+        Cards("Actividad", 0.0, Color.Green),
+        Cards("Ventas",280.99,Color.Cyan),
+        Cards("Ganancias",280.99,Color.Blue)
+    )
 
 
     Column(
@@ -110,6 +117,94 @@ fun HomeScreen(innerPadding:PaddingValues) {
         }
 
         Spacer(modifier = Modifier.height(8.dp))
+
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+                .height(220.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+
+            Card(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = cards[0].color)
+            ) {
+
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                        Icon(
+                            imageVector = Icons.Default.Face,
+                            contentDescription = null,
+                            modifier = Modifier.size(36.dp),
+                            tint = Color.Black
+                        )
+
+                        Text(
+                            cards[0].title,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            color = Color.Black
+                        )
+
+                        Text(
+                            "de la Semana",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+            }
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+
+                cards.drop(1).forEach { tarjeta ->
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(containerColor = tarjeta.color)
+                    ) {
+
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                                Text(
+                                    tarjeta.title,
+                                    fontSize = 13.sp,
+                                    color = Color.Gray
+                                )
+
+                                Text(
+                                    "$${tarjeta.amount}",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
